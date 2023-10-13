@@ -1,20 +1,22 @@
 <template>
-    <div>
-      <button :disabled='btnIsDisabled' @click="startTimer">Start</button>
-      {{ score }}
-        <br>
-        {{ timerCount }}
-      <br>
-      <img :src="pokemonArt">
-      <br>
-      <input :disabled="inputIsDisabled" type="text" v-model="chosenPokemon" @input="checkIfCorrect">
-      <br>
-      <button :disabled="inputIsDisabled" @click="skipPokemon">Skip</button>
+  <div class="container">
+    <div class="info">
+      <p class="score">Correctly Guessed: {{ score }}</p>
+      <p class="timer">Time Remaining: {{ timerCount }}</p>
     </div>
-  </template>
+    <button class="btn-start" :disabled="btnIsDisabled" @click="startTimer">Start</button>
+    <br>
+    <img class="center" :src="pokemonArt">
+    <br>
+    <input ref="pokemonInput" class="center" :disabled="inputIsDisabled" type="text" v-model="chosenPokemon" @input="checkIfCorrect">
+    <button class="btn-skip center" :disabled="inputIsDisabled" @click="skipPokemon">Skip</button>
+  </div>
+</template>
+
   
-  <script>
+<script>
 import { handleError } from 'vue';
+import axios from 'axios';
 
   export default {
     data() {
@@ -23,7 +25,7 @@ import { handleError } from 'vue';
         score: 0,
         pokemonName: "",
         pokemonId: "",
-        pokemonArt: "",
+        pokemonArt: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png",
 
         btnIsDisabled: false,
         inputIsDisabled: true,
@@ -96,6 +98,7 @@ import { handleError } from 'vue';
       },
       skipPokemon(){
          this.chosenPokemon = '';
+         this.focusInput();
          this.fetchPokemon();
         },
       startTimer(){
@@ -105,8 +108,59 @@ import { handleError } from 'vue';
         this.btnIsDisabled = true;
         this.inputIsDisabled = false;
         this.fetchPokemon();
+        this.focusInput();
+        this.resetGuessedPokemon();
         this.timerEnabled = true;
+        
       },
+      resetGuessedPokemon(){
+        axios
+        .post('/api/guess/pokemon/reset')
+        .catch((error) =>
+        {
+          console.error("Failed to reset pokemon", error);
+        })
+      },
+
+      focusInput() {
+        this.$nextTick(() => {
+        this.$refs.pokemonInput.focus();
+        });
+      },
+
     },
   };
-  </script>
+</script>
+
+<style scoped>
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.info {
+    display: flex;
+    justify-content: space-between;
+    width: 50%;
+    margin: 0 auto;
+}
+
+.timer, .score {
+    font-size: 20px;
+}
+
+.btn-start {
+    margin-top: 10px;
+    padding: 5px 20px;
+}
+
+.center {
+    display: block;
+    margin: 0 auto;
+}
+
+.btn-skip {
+    padding: 5px 20px;
+}
+</style>

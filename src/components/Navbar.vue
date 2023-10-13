@@ -1,64 +1,46 @@
 <template>
-    <ul>
-      <li>
-        <a
-          class="nav-link"
-          href="#home"
-          @click="selectTab('home')"
-          :class="{ active: selectedTab === 'home' }"
-        >
-          Home
-        </a>
-      </li>
-      <li>
-        <a
-          class="nav-link"
-          href="#race"
-          @click="selectTab('race')"
-          :class="{ active: selectedTab === 'race' }"
-        >
-          Race
-        </a>
-      </li>
-      <li>
-        <a
-          class="nav-link"
-          href="#practice"
-          @click="selectTab('practice')"
-          :class="{ active: selectedTab === 'practice' }"
-        >
-          Practice
-        </a>
-      </li>
-      <li>
-        <a
-          class="nav-link"
-          href="#friends"
-          @click="selectTab('friends')"
-          :class="{ active: selectedTab === 'friends' }"
-        >
-          Friends
-        </a>
-      </li>
-    </ul>
-  </template>
+  <ul>
+    <li>
+      <router-link to="/home" class="nav-link" @click="selectTab('home')" :class="{ active: selectedTab === 'home' }">
+        Home
+      </router-link>
+    </li>
+    <li>
+      <router-link to="/race" class="nav-link" @click="selectTab('race')" :class="{ active: selectedTab === 'race' }">
+        Race
+      </router-link>
+    </li>
+    <li>
+      <router-link to="/practice" class="nav-link" @click="selectTab('practice')" :class="{ active: selectedTab === 'practice' }">
+        Practice
+      </router-link>
+    </li>
+    <li>
+      <router-link to="/friends" class="nav-link" @click="selectTab('friends')" :class="{ active: selectedTab === 'friends' }">
+        Friends
+      </router-link>
+    </li>
+  </ul>
+</template>
+
+
   
-  <script>
-  export default {
-    data() {
-      return {
-        selectedTab: '', // Store the selected tab
-      };
+<script>
+export default {
+  data() {
+    return {
+      selectedTab: '',
+    };
+  },
+  methods: {
+    selectTab(tabName) {
+      this.selectedTab = tabName;
     },
-    methods: {
-      selectTab(tabName) {
-        this.selectedTab = tabName;
-      },
-    },
-  };
-  </script>
+  },
+};
+</script>
   
-  <style scoped>
+<style scoped>
   ul {
     list-style-type: none;
     margin: 0;

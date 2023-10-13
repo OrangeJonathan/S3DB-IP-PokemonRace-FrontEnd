@@ -1,13 +1,13 @@
 <template>
   <Navbar/>
-  <Guess/>
+  <router-view></router-view>
 </template>
 
 
 <script >
   import HelloWorld from './components/HelloWorld.vue'
   import Navbar from './components/Navbar.vue'
-  import Guess from './components/Guess.vue'
+  import Practice from './components/Practice.vue'
   import Friends from './components/Friends.vue'
 
   export default {
@@ -15,7 +15,7 @@
     components: {
       HelloWorld,
       Navbar,
-      Guess,
+      Practice,
       Friends,
     }
   }

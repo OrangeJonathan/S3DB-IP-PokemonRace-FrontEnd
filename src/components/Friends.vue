@@ -1,4 +1,5 @@
 <template>
+  <div>
     <ul>
         <li v-for="friend in friends" @click="showFriend(friend)">{{ friend.id }}</li>
     </ul>
@@ -11,9 +12,10 @@
         </a>
       </p>
     </div>
+  </div>
 </template>
 
-<style>
+<style scoped>
     li:hover{
         color: orange;
     }
