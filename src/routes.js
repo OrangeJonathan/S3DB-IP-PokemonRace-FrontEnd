@@ -6,7 +6,7 @@ import Friends from './components/Friends.vue';
 
 
 const routes = [
-    { path: '/', component: Home},
+    { path: '/home', component: Home},
     { path: '/race', component: Race},
     { path: '/practice', component: Practice},
     { path: '/friends', component: Friends}
