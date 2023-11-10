@@ -1,9 +1,8 @@
 <template>
     <h1>{{ msg }}</h1>
-  </template>
+</template>
   
-  <script>
-  
+<script>
   export default {
     name: "HelloWorld",
     data(){
@@ -20,5 +19,5 @@
       
     }
   }
-  </script>
+</script>
   

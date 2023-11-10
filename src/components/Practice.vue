@@ -137,6 +137,7 @@ import axios from 'axios';
          this.focusInput();
          this.fetchPokemon();
         },
+        
       startTimer(){
         this.timerCount = 60;
         this.score = 0;
