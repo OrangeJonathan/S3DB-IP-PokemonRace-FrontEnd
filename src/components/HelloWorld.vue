@@ -1,5 +1,5 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <h1 class="centered-message-hello-world">{{ msg }}</h1>
 </template>
 
 <script>
@@ -21,3 +21,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+  .centered-message-hello-world {
+    text-align: center;
+  }
+</style>

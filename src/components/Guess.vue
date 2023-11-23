@@ -2,7 +2,6 @@
   <div class="container">
     <div class="info">
       <p class="score">Correctly Guessed: {{ score }}</p>
-      <p class="timer">Time Remaining: {{ timerCount }}</p>
     </div>
     <div class="main-content">
       <div class="options">
@@ -15,18 +14,25 @@
         <img :src="pokemonArt">
       </div>
     </div>
-    <button class="btn-start" :disabled="btnIsDisabled" @click="startTimer">Start</button>
+    <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded shadow" :disabled="btnIsDisabled" @click="startTimer">Start</button>
     <br>
     <input ref="pokemonInput" class="center" :disabled="inputIsDisabled" type="text" v-model="chosenPokemon" @input="checkIfCorrect">
-    <button class="btn-skip center" :disabled="inputIsDisabled" @click="skipPokemon">Skip</button>
+    <p class="py-">
+      <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 center border border-gray-400 rounded shadow" :disabled="inputIsDisabled" @click="skipPokemon">Skip</button>
+    </p>
   </div>
 </template>
 
 <script>
-import { handleError } from 'vue';
 import axios from 'axios';
 
   export default {
+    props: {
+      timerActive: {
+        type: Boolean,
+        required: true,
+      },
+    },
     data() {
       return {
         chosenPokemon: "",
@@ -37,9 +43,6 @@ import axios from 'axios';
 
         btnIsDisabled: false,
         inputIsDisabled: true,
-
-        timerEnabled: false,
-        timerCount: 60,
 
         options: [
         { label: "All Generations", value: 0 }, 
@@ -58,39 +61,18 @@ import axios from 'axios';
     },
     
     watch: {
-        timerEnabled(value) {
-            if (value) {
-                setTimeout(() => {
-                    this.timerCount--;
-                }, 1000);
-            }
-        },
-
-        timerCount: {
-            handler(value) {
-
-                if (value > 0 && this.timerEnabled) {
-                    setTimeout(() => {
-                        this.timerCount--;
-                    }, 1000);
-                }
-                else if (value == 0)
-                {
-                    this.btnIsDisabled = false;
-                    this.inputIsDisabled = true;
-                    this.chosenPokemon = '';
-
-                }
-
-            },
-            immediate: true
-            },
-
-            selectedOption: {
-              handler: 'sendSelectedOptionToBackend',
-              immediate: true,
-            },
-        },
+      timerActive(value) {
+        if (!value) {
+          this.btnIsDisabled = false;
+          this.inputIsDisabled = true;
+          this.chosenPokemon = '';
+        }
+      },
+      selectedOption: {
+        handler: 'sendSelectedOptionToBackend',
+        immediate: true,
+      },
+    },
 
     methods: {
       fetchPokemon() {
@@ -139,7 +121,7 @@ import axios from 'axios';
         },
         
       startTimer(){
-        this.timerCount = 60;
+        this.$emit('timerStarted', true);
         this.score = 0;
         this.chosenPokemon = '';
         this.btnIsDisabled = true;
@@ -147,8 +129,7 @@ import axios from 'axios';
         this.fetchPokemon();
         this.focusInput();
         this.resetGuessedPokemon();
-        this.timerEnabled = true;
-        
+               
       },
       resetGuessedPokemon(){
         axios
@@ -169,49 +150,7 @@ import axios from 'axios';
 </script>
 
 <style scoped>
-.container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.info {
-  display: flex;
-  justify-content: space-between;
-  width: 50%;
-  margin: 0 auto;
-}
-
-.timer, .score {
-  font-size: 20px;
-}
-
-.center {
-  display: block;
-  margin: 0 auto;
-}
-
-.btn-skip {
-  padding: 5px 20px;
-}
-
-.main-content {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  width: 100%;
-}
-
-.options {
-  margin-left: 10px; /* Add some left margin to the options */
-}
-
-.image  {
-  display: block ;
-  margin: 0 auto; 
-  padding-right: 130px;
-  text-align: center; 
-} 
+  @import '/src/assets/practice.css';
 </style>
 
 

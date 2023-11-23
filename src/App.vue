@@ -1,22 +1,19 @@
 <template>
   <Navbar/>
   <router-view></router-view>
+  <Footer/>
 </template>
 
 
 <script >
-  import HelloWorld from './components/HelloWorld.vue'
   import Navbar from './components/Navbar.vue'
-  import Practice from './components/Practice.vue'
-  import Friends from './components/Friends.vue'
+  import Footer from './components/Footer.vue'
 
   export default {
     name: 'App',
     components: {
-      HelloWorld,
       Navbar,
-      Practice,
-      Friends,
+      Footer,
     }
   }
 </script>

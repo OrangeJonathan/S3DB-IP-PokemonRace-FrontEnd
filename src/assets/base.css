@@ -1,3 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .inline {
     display: inline-block;
+}
+
+.bg-color-333 {
+    background-color: #333;
 }
