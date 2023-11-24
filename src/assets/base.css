@@ -9,3 +9,7 @@
 .bg-color-333 {
     background-color: #333;
 }
+
+.min-w-20 {
+    min-width: 12%;
+}
