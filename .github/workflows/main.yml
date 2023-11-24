@@ -39,6 +39,8 @@ jobs:
     needs: test
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
     - name: Use Node.js
       uses: actions/setup-node@v2
       with:
@@ -51,4 +53,3 @@ jobs:
       env:
         SONAR_TOKEN : ${{ secrets.SONAR_TOKEN }}
         SONAR_HOST_URL : ${{ secrets.SONAR_HOST_URL }}
-        SONAR_PROJECT_KEY : ${{ secrets.SONAR_PROJECT_KEY }}
