@@ -11,10 +11,13 @@ export default {
       type: Boolean,
       required: true,
     },
+    startTime: {
+      type: Number,
+      required: true,
+    },
   },
   data() {
     return {
-      startTime: 60,
       timeLeft: 0,
       timer: null,
     };
@@ -38,6 +41,9 @@ export default {
         this.$emit('timerEnded', false); // Emit an event when the timer ends
       }
     },
+    startTime(value){
+      this.timeLeft = value;
+    }
   },
   methods: {
     padTime(time) {
