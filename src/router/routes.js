@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import Home from '/src/views/Home.vue';
 import Race from '/src/components/Race.vue';
 import Guess from '/src/views/Practice.vue';
-import Friends from '/src/components/Friends.vue';
+import Friends from '/src/views/Friends.vue';
 
 
 const routes = [

@@ -1,5 +1,6 @@
 <template>
   <h1 class="centered-message-hello-world">{{ msg }}</h1>
+  <p>hey</p>
 </template>
 
 <script>
