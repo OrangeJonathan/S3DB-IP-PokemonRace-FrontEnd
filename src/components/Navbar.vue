@@ -21,12 +21,12 @@
       </router-link>
     </li>
     <li class="nav-li log-in-out" v-if="!isAuthenticated && !isLoading">
-      <button class ="nav-link" @click.prevent="login">
+      <button class ="nav-link" @click.prevent="handleLogin">
         log in
       </button>
     </li>
     <li class="nav-li log-in-out" v-if="isAuthenticated">
-      <button class ="nav-link " @click.prevent="logout">
+      <button class ="nav-link " @click.prevent="handleLogout">
         log out
       </button>
     </li>
@@ -42,29 +42,25 @@
 </template>
 
 <script>
-import { useAuth0 } from '@auth0/auth0-vue';
-export default {
-  name: "NavBar",
-  setup() {
-    const auth0 = useAuth0();
+import authService from '@/service/authService.js';
 
-    return {
-      isAuthenticated: auth0.isAuthenticated,
-      isLoading: auth0.isLoading,
-      user: auth0.user,
-      login() {
-        auth0.loginWithRedirect();
-      },
-      logout() {
-        auth0.logout({
-          logoutParams: {
-            returnTo: window.location.origin
-          }
-        });
-      }
-    }
-  }
-}
+export default {
+  setup()
+  {
+    const { user, isAuthenticated, isLoading, loginWithRedirect, logout } = authService();
+
+    return { user, isAuthenticated, isLoading, loginWithRedirect, logout};
+  },
+  methods: {
+    async handleLogin() {
+      await this.loginWithRedirect();
+    },
+    handleLogout() {
+      this.logout();
+    },
+  },
+  
+};
 
 
 </script>

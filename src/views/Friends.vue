@@ -1,14 +1,14 @@
 <template>
-    <WebSocket />
+  <Friends />
 </template>
 
 <script>
-import WebSocket from "@/components/WebSocket.vue";
+import Friends from "@/components/Friends.vue";
 
 export default {
-  name: "Friends",
+  name: "Fwends",
   components: {
-    WebSocket,
+    Friends
   }
 };
 </script>
