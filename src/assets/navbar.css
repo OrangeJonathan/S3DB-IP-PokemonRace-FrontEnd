@@ -28,3 +28,10 @@
   .active {
     background-color: #b97004;
   }
+
+  .log-in-out {
+    float: right;
+  }
+  .profile-picture {
+    padding: 0;
+  }

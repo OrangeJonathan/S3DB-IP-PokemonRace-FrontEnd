@@ -16,6 +16,10 @@
 
 <script>
 import axios from 'axios';
+import PokemonRepository from '../repository/pokemonRepository';
+import { useAuth0 } from '@auth0/auth0-vue';
+
+const pokemonRepo = new PokemonRepository();
 
   export default {
     props: {
@@ -56,33 +60,20 @@ import axios from 'axios';
     },
 
     methods: {
-      fetchPokemon(generation) {
-        axios.get('/api/guess/pokemon', {
-          params: {
-            generation: generation,
-          },
-        })
-          .then(response => {
-            // Check if the response is OK (status code 200-299)
-            if (response.status < 200 || response.status >= 300) {
-              throw new Error('Network response was not ok');
-            }
-            return response.data;
-          })
-          .then(data => {
-            // Handle the data
-            this.pokemonId = data.id;
-            this.pokemonName = data.name;
-            this.pokemonArt = data.imageString;
-          })
-          .catch(error => {
-            // Handle errors
-            console.error('Error fetching data:', error);
-          });
+      async fetchPokemon(generation) {
+        const token = await this.$auth0.getAccessTokenSilently();
+        try {
+          await pokemonRepo.fetchPokemon(generation, token);
+          this.pokemonName = pokemonRepo.pokemonName;
+          this.pokemonId = pokemonRepo.pokemonId;
+          this.pokemonArt = pokemonRepo.pokemonArt;
+        } catch (error) {
+          console.error('Error fetching Pokemon:', error);
+        }
       },
       
       checkIfCorrect(){
-        fetch('/api/guess/pokemon/' + this.chosenPokemon.toLowerCase())
+        fetch('/api/guess/iscorrect/' + this.chosenPokemon.toLowerCase())
         .then(response => {
             return response.json();
         })
@@ -113,13 +104,12 @@ import axios from 'axios';
         this.resetGuessedPokemon();
                
       },
-      resetGuessedPokemon(){
-        axios
-        .post('/api/guess/pokemon/reset')
-        .catch((error) =>
-        {
-          console.error("Failed to reset pokemon", error);
-        })
+      async resetGuessedPokemon(){
+        try {
+          await pokemonRepo.resetGuessedPokemon();
+        } catch (error) {
+          console.error('Error resetting guessed Pokemon:', error);
+        }
       },
 
       focusInput() {

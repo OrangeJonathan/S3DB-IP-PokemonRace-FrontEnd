@@ -1,15 +1,18 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '/src/views/Home.vue';
-import Race from '/src/components/Race.vue';
+import Race from '/src/views/Race.vue';
 import Guess from '/src/views/Practice.vue';
-import Friends from '/src/components/Friends.vue';
+import Friends from '/src/views/Friends.vue';
+import Profile from '/src/views/Profile.vue';
+import { authGuard } from "@auth0/auth0-vue";
 
 
 const routes = [
     { path: '/', component: Home, name: 'home'},
-    { path: '/race', component: Race, name: 'race'},
     { path: '/practice', component: Guess, name: 'practice'},
-    { path: '/friends', component: Friends, name: 'friends'}
+    { path: '/race', component: Race, name: 'race', beforeEnter: authGuard},
+    { path: '/friends', component: Friends, name: 'friends', beforeEnter: authGuard},
+    { path: '/profile', component: Profile, name: 'profile', beforeEnter: authGuard },
 ];
 
 const router = createRouter({
