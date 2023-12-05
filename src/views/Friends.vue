@@ -1,14 +1,14 @@
 <template>
-  <Friends />
+  <chat />
 </template>
 
 <script>
-import Friends from "@/components/Friends.vue";
+import Chat from "@/components/Chat.vue";
 
 export default {
-  name: "Fwends",
+  name: "Friends",
   components: {
-    Friends
+    Chat
   }
 };
 </script>
