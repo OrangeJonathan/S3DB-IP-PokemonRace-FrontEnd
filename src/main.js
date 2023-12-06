@@ -12,7 +12,7 @@ app.use(
     domain: "pokemonracer.eu.auth0.com",
     clientId: "Ro4SCGvNoy246c6hH9o1uoAXdtLvtzmj",
     authorizationParams: {
-      redirect_uri: window.location.origin,
+      redirect_uri: 'http://localhost:3000/callback',
     },
   })
 );

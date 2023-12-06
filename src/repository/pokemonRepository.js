@@ -31,9 +31,13 @@ class PokemonRepository {
     }
   }
 
-  async resetGuessedPokemon() {
+  async resetGuessedPokemon(token) {
         try{
-            const response = await axios.post('/api/guess/pokemon/reset');
+            const response = await axios.post('/api/guess/pokemon/reset', null , {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
 
             // Check if the response is OK (status code 200-299)
             if (response.status < 200 || response.status >= 300) {
@@ -42,7 +46,7 @@ class PokemonRepository {
         }
         catch (error) {
         // Handle errors
-        console.error('Error fetching data:', error);
+        console.error('Error resetting pokemon', error);
         throw error; // Re-throw the error to be caught by the Vue method
         }
     }
