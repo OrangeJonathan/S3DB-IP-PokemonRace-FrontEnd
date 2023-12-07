@@ -33,12 +33,19 @@
     </div>
 </template>
 
+
+
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
+import authService from '@/service/authService.js';
 
 export default {
   name: "websockettest",
+  props: {
+    chatSelected: Boolean,
+    friendSelected: String,
+  },
   data() {
     return {
       received_messages: [],
@@ -47,11 +54,12 @@ export default {
     };
   },
   methods: {
-    send() {
+send() {
       console.log("Send message:" + this.send_message);
       if (this.stompClient && this.stompClient.connected) {
         const msg = { content: this.send_message };
         this.stompClient.send("/app/hello", JSON.stringify(msg), {});
+        this.send_message = "";
       }
     },
     connect() {

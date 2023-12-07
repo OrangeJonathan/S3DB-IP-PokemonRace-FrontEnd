@@ -1,11 +1,12 @@
 import axios from 'axios';
 
 class userRepository {
-    async SendUserToBackend(username, auth0_id, token) {
+    async SendUserToBackend(username, auth0_id, email, token) {
         try {
           const response = await axios.post('/api/users', {
               username: username,
               auth0_id: auth0_id,
+              email: email,
             }, {
             headers: {
               Authorization: `Bearer ${token}`,

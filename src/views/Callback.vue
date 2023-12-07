@@ -23,9 +23,10 @@ export default {
             try {
                 const username = this.user.name;
                 const auth0_id = this.user.sub;
+                const email = this.user.email
                 console.log(username);
                 console.log(auth0_id);
-                await userRepo.SendUserToBackend(username, auth0_id, token);
+                await userRepo.SendUserToBackend(username, auth0_id, email, token);
             } catch (error) {
                 console.error('Error sending user to backend:', error);
             }
