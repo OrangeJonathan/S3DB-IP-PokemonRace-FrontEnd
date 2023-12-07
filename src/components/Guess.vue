@@ -15,10 +15,7 @@
 </template>
 
 <script>
-import axios from 'axios';
 import PokemonRepository from '../repository/pokemonRepository';
-import { useAuth0 } from '@auth0/auth0-vue';
-
 const pokemonRepo = new PokemonRepository();
 
   export default {
@@ -105,13 +102,14 @@ const pokemonRepo = new PokemonRepository();
                
       },
       async resetGuessedPokemon(){
+        const token = await this.$auth0.getAccessTokenSilently();
+        console.log(token);
         try {
-          await pokemonRepo.resetGuessedPokemon();
+          await pokemonRepo.resetGuessedPokemon(token);
         } catch (error) {
           console.error('Error resetting guessed Pokemon:', error);
         }
       },
-
       focusInput() {
         this.$nextTick(() => {
         this.$refs.pokemonInput.focus();
