@@ -1,5 +1,5 @@
 <template>
-  <footer>
+  <footer ref="footer">
     <p class="footer-text float-right">Powered by <a href="https://pokeapi.co/">PokeAPI</a></p>
     <p class="footer-text">© Jonathan Kat - 2023</p>
   </footer>
@@ -8,6 +8,9 @@
 <script>
 export default {
   name: 'Footer',
+  mounted() {
+    this.$emit('footerHeight', this.$refs.footer.clientHeight);
+  },
 }
 </script>
 

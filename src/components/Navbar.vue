@@ -1,5 +1,5 @@
 <template>
-  <ul class="nav-ul">
+  <ul class="nav-ul" ref="navbar">
     <li class="nav-li">
       <router-link class="nav-link" :class="$route.name == 'home'? 'active':''" aria-current="page" :to="{ name: 'home'}">
         Home
@@ -58,6 +58,9 @@ export default {
     handleLogout() {
       this.logout();
     },
+  },
+  mounted() {
+    this.$emit('navbarHeight', this.$refs.navbar.clientHeight);
   },
   
 };
