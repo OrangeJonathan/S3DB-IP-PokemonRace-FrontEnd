@@ -1,80 +1,94 @@
 <template>
-    <div>
-        <div id="main-content" class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label for="name">Type Something</label>
-                            <br />
-                            <input type="text" id="name" class="form-control" v-model="send_message" placeholder="Your name here...">
-                        </div>
-                        <button id="send" class="border-solid" type="submit" @click.prevent="send">Send</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <table id="conversation" class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>CHAT</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="item in received_messages" :key="item">
-                                <td>{{ item }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+  <div class="chatbox">
+    <div class="chatbox-header">
+      <h3 class="text-lg font-semibold text-gray-800 text-center">{{ selectedFriend.username }}</h3>
     </div>
+    <div class="chatbox-messages">
+      <div v-for="(item, index) in received_messages.slice().reverse()" :key="index" :class="{ ' message-self ': item.sender_id === this.user.sub, ' message-other ': item.sender_id === selectedFriend.auth0_id}">
+        {{ item.content }}
+      </div>
+    </div>
+    <div class="chatbox-input">
+      <input
+        v-model="send_message"
+        @keyup.enter="send"
+        type="text"
+        placeholder="Type your message..."
+        class="w-10/12 p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-200"
+      />
+      <button @click="send" class="ml-7 bg-blue-200 text-black p-2 rounded p-2">
+        Send
+      </button>
+    </div>
+  </div>
 </template>
-
-
 
 <script>
 import SockJS from "sockjs-client";
 import Stomp from "webstomp-client";
 import authService from '@/service/authService.js';
+import axios from 'axios';
 
 export default {
   name: "websockettest",
   props: {
-    chatSelected: Boolean,
-    friendSelected: String,
+    selectedFriend: '',
+  },
+  setup() {
+    const { user, isAuthenticated } = authService();
+
+    return { user, isAuthenticated};
   },
   data() {
     return {
       received_messages: [],
-      send_message: null,
-      connected: false
+      send_message: '',
+      connected: false,
     };
   },
   methods: {
-send() {
-      console.log("Send message:" + this.send_message);
-      if (this.stompClient && this.stompClient.connected) {
-        const msg = { content: this.send_message };
-        this.stompClient.send("/app/hello", JSON.stringify(msg), {});
-        this.send_message = "";
-      }
+    send() {
+        console.log("Send message:" + this.send_message);
+        // Add the sent message to the local list immediately
+        const sentMsg = {
+            content: this.send_message,
+            sender_id: this.user.sub,
+            recipientId: this.selectedFriend.auth0_id
+        };
+        this.received_messages.push(sentMsg);
+
+        if (this.stompClient && this.stompClient.connected) {
+            const msg = {
+                content: this.send_message,
+                sender_id: this.user.sub,
+                recipientId: this.selectedFriend.auth0_id
+            };
+            console.log(this.selectedFriend);
+            this.stompClient.send(`/app/hello/${this.selectedFriend.auth0_id}`, JSON.stringify(msg), {});
+            this.send_message = "";
+        }
     },
     connect() {
-      this.socket = new SockJS("http://localhost:8080/websocket");
-      this.stompClient = Stomp.over(this.socket);
-      this.stompClient.connect(
-        {},
-        frame => {
-          this.connected = true;
-          console.log(frame);
-          this.stompClient.subscribe("/topic/greetings", tick => {
-            console.log(tick);
-            this.received_messages.push(JSON.parse(tick.body).content);
-          });
-        },
+        this.socket = new SockJS("http://localhost:8080/websocket");
+        this.stompClient = Stomp.over(this.socket);
+        this.stompClient.connect(
+            {},
+            frame => {
+                this.connected = true;
+                console.log(frame);
+
+                // Subscribe to the correct topic
+                this.stompClient.subscribe(`/topic/private/${this.user.sub}`, tick => {
+                    console.log(tick);
+                    const receivedMsg = {
+                        content: JSON.parse(tick.body).content,
+                        sender_id: JSON.parse(tick.body).sender_id,
+                        recipientId: JSON.parse(tick.body).recipientId
+                    };
+                    // Update the local list with the server's response
+                    this.received_messages.push(receivedMsg);
+                });
+            },
         error => {
           console.log(error);
           this.connected = false;
@@ -89,10 +103,97 @@ send() {
     },
     tickleConnection() {
       this.connected ? this.disconnect() : this.connect();
-    }
+    },
+    getChatMessages() {
+      axios.get("/api/chat", {
+        params: {
+          senderId: this.user.sub,
+          receiverId: this.selectedFriend.auth0_id
+        }
+      }).then(response => {
+        this.received_messages = response.data;
+      });
+    },
+    switchFriend() {
+      this.received_messages = [];
+      console.log("Switching friend to: " + this.selectedFriend)
+      this.getChatMessages();
+    },
   },
   mounted() {
     this.connect();
-  }
+    this.getChatMessages();
+  },
+  watch: {
+    // Watch for changes in the selectedFriend prop
+    selectedFriend(value) {
+      this.switchFriend();  
+    },
+  },
 };
 </script>
+
+<style>
+.chatbox {
+  width: 600px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.chatbox-header {
+  background-color: #f5f5f5;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.chatbox-messages {
+  max-height: 600px;
+  min-height: 600px;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse; /* This will reverse the stacking order of the flex items */
+}
+
+
+.chatbox-messages::-webkit-scrollbar {
+  width: 8px;
+}
+
+.chatbox-messages::-webkit-scrollbar-thumb {
+  background-color: #888; 
+    }
+
+.chatbox-messages::-webkit-scrollbar-track {
+  background-color: #eee;
+ }
+
+
+.message {
+  margin-bottom: 10px;
+}
+
+.message-self {
+  background-color: #d1f5e1;
+  padding: 8px;
+  border-radius: 8px;
+  align-self: flex-end;
+}
+
+.message-other {
+  background-color: #e0e0e0;
+  padding: 8px;
+  border-radius: 8px;
+  align-self: flex-start;
+}
+
+.chatbox-input {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+}
+
+button {
+  cursor: pointer;
+}
+</style>

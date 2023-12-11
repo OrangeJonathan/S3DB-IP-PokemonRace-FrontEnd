@@ -14,11 +14,12 @@
                     Accept
                 </button>
             </li>
-            <p class="light-border mb-2"/>
-            <li v-for="friend in friends" :key="friend.id" class="mb-2 bg-zinc-200">
+            <p class="light-border mb-2" />
+            <li v-for="friend in friends" :key="friend.id" class="mb-2" :class="{ ' bg-zinc-200': friend !== selectedUser, 'bg-green-300': friend === selectedUser }">
                 {{ friend.username }}
-                <button @click="openChat(friend)" class="rounded-sm bg-light-blue-200 px-3 py-1">
-                    Chat
+                {{ friend.auth0Id }}
+                <button @click="openDetails(friend)" class="rounded-sm bg-light-blue-200 px-3 py-1 ">
+                    Select
                 </button>
             </li>
         </ul>
@@ -41,6 +42,7 @@ export default {
             friends: [],
             pendingFriends: [],
             chosenEmail: '',
+            selectedUser: null,   
         };
     },
     mounted() {
@@ -64,9 +66,9 @@ export default {
             await friendRepo.fetchPendingFriends(token, auth0Id);
             this.pendingFriends = friendRepo.pendingFriends;
         },
-        openChat(friend) {
-            // Emit an event to the parent component (Friends.vue) to open the chat with the selected friend
-            this.$emit('open-chat', friend);
+        openDetails(friend) {
+            this.selectedUser = friend;
+            this.$emit('open-details', friend);
         },
         async sendFriendRequest() {
             const token = await this.$auth0.getAccessTokenSilently();
