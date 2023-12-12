@@ -1,6 +1,14 @@
 <template>
-  <FriendList @open-details="handleDetails" class="fixed"/>
-  <chat v-if="chatEnabled" :selectedFriend="selectedFriend" class="fixed right-0" />
+  <div class="flex">
+    <!-- Left Column: FriendList -->
+    <FriendList @open-details="handleDetails" class="w-1/3 p-4" />
+
+    <!-- Middle Column: FriendDetails -->
+    <FriendDetails v-if="chatEnabled" :selectedFriend="selectedFriend" class="w-1/3" />
+
+    <!-- Right Column: Chat -->
+    <chat v-if="chatEnabled" :selectedFriend="selectedFriend" class="w-1/3" />
+  </div>
 </template>
 
 <script>

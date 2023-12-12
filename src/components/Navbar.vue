@@ -36,7 +36,7 @@
       </button>
     </li>
     <li class="nav-li log-in-out" v-if="isAuthenticated">
-      <img class="pofile-picture" :src="user.picture" width="52" length="52">
+      <img class="pofile-picture" :src="user.picture" alt="picture" width="52" length="52">
     </li>
   </ul>
 </template>

@@ -4,7 +4,7 @@
         <ul>
             <li class="">
                 <input type="text" placeholder="enter e-mail" v-model="chosenEmail" >
-                <button @click="sendFriendRequest()" class="rounded-sm bg-light-blue-200 px-3 py-1">
+                <button @click="sendFriendRequest()" class="bg-gradient-to-r from-blue-200 to-blue-400 px-4 py-2 rounded-full shadow-md hover:shadow-lg">
                     Send Request
                 </button>
             </li>
@@ -18,7 +18,10 @@
             <li v-for="friend in friends" :key="friend.id" class="mb-2" :class="{ ' bg-zinc-200': friend !== selectedUser, 'bg-green-300': friend === selectedUser }">
                 {{ friend.username }}
                 {{ friend.auth0Id }}
-                <button @click="openDetails(friend)" class="rounded-sm bg-light-blue-200 px-3 py-1 ">
+                <button 
+                @click="openDetails(friend)" 
+                class="px-4 py-2 rounded-full shadow-md hover:shadow-lg" 
+                :class="{ 'bg-gradient-to-r from-blue-200 to-blue-400': friend !== selectedUser, 'bg-gradient-to-r from-green-500 to-green-300': friend === selectedUser }">
                     Select
                 </button>
             </li>
