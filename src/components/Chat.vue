@@ -16,7 +16,7 @@
         placeholder="Type your message..."
         class="w-10/12 p-2 border border-gray-300 rounded focus:outline-none focus:border-blue-200"
       />
-      <button @click="send" class="ml-7 bg-blue-200 text-black p-2 rounded p-2">
+      <button @click="send" class="ml-5 bg-gradient-to-r from-lime-400 to-lime-200 px-4 py-2 rounded-full shadow-md hover:shadow-lg">
         Send
       </button>
     </div>
@@ -49,6 +49,9 @@ export default {
   methods: {
     send() {
         console.log("Send message:" + this.send_message);
+        if (this.send_message === "") {
+            return;
+        }
         // Add the sent message to the local list immediately
         const sentMsg = {
             content: this.send_message,

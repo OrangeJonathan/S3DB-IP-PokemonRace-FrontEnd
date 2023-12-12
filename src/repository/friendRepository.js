@@ -6,6 +6,7 @@ class friendRepository {
             const response = await axios.get('/api/friends', {
                 params: {
                     auth0Id: auth0Id,
+                    accepted: true,
                 },
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -30,6 +31,7 @@ class friendRepository {
             const response = await axios.get('/api/friends/pending', {
                 params: {
                     auth0Id: auth0Id,
+                    accepted: false,
                 },
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -90,6 +92,26 @@ class friendRepository {
             console.error('Error accepting friend ', error);
           throw error;
         }
+    }
+
+    async removeFriend(token, auth0Id, friend)
+    {
+        try {
+            const response = await axios.delete('/api/friends', {
+                params: {
+                    senderAuth0Id: friend.auth0_id,
+                    receiverAuth0Id: auth0Id,
+                },
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            if (response.status < 200 || response.status >= 300) {
+                throw new Error('Network response was not ok');
+              }
+            } catch (error) {
+            console.error('Error removing friend ', error);
+            }
     }
 }
 
