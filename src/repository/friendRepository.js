@@ -28,7 +28,7 @@ class friendRepository {
 
     async fetchPendingFriends(token, auth0Id) {
         try {
-            const response = await axios.get('/api/friends/pending', {
+            const response = await axios.get('/api/friends', {
                 params: {
                     auth0Id: auth0Id,
                     accepted: false,
@@ -78,7 +78,7 @@ class friendRepository {
         try {
             const response = await axios.put('/api/friends', null, {
                 params: {
-                    senderAuth0Id: friend.auth0_id,
+                    senderAuth0Id: friend.auth0Id,
                     receiverAuth0Id: auth0Id,
                 },
                 headers: {
@@ -99,7 +99,7 @@ class friendRepository {
         try {
             const response = await axios.delete('/api/friends', {
                 params: {
-                    senderAuth0Id: friend.auth0_id,
+                    senderAuth0Id: friend.auth0Id,
                     receiverAuth0Id: auth0Id,
                 },
                 headers: {

@@ -5,7 +5,7 @@ class userRepository {
         try {
           const response = await axios.post('/api/users', {
               username: username,
-              auth0_id: auth0_id,
+              auth0Id: auth0_id,
               email: email,
             }, {
             headers: {

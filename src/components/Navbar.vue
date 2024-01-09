@@ -22,12 +22,12 @@
     </li>
     <li class="nav-li log-in-out" v-if="!isAuthenticated && !isLoading">
       <button class ="nav-link" @click.prevent="handleLogin">
-        log in
+        Login / Sign Up
       </button>
     </li>
     <li class="nav-li log-in-out" v-if="isAuthenticated">
       <button class ="nav-link " @click.prevent="handleLogout">
-        log out
+        Logout
       </button>
     </li>
     <li class="nav-li log-in-out" v-if="isAuthenticated">
