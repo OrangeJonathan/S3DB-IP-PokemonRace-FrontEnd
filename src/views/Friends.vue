@@ -1,7 +1,7 @@
 <template>
   <div class="flex">
     <!-- Left Column: FriendList -->
-    <FriendList @open-details="handleDetails" class="w-1/3 p-4" />
+    <FriendList @open-details="handleDetails" :friendRequestEnabled="true" :friendListHeaderText="'Friend List'" class="w-1/3 p-4" />
 
     <!-- Middle Column: FriendDetails -->
     <FriendDetails v-if="chatEnabled" :selectedFriend="selectedFriend" class="w-1/3" />
@@ -10,6 +10,7 @@
     <chat v-if="chatEnabled" :selectedFriend="selectedFriend" class="w-1/3" />
   </div>
 </template>
+
 
 <script>
 import Chat from "@/components/Chat.vue";

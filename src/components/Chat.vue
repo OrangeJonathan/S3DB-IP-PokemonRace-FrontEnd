@@ -4,7 +4,7 @@
       <h3 class="text-lg font-semibold text-gray-800 text-center">{{ selectedFriend.username }}</h3>
     </div>
     <div class="chatbox-messages">
-      <div v-for="(item, index) in received_messages.slice().reverse()" :key="index" :class="{ ' message-self ': item.sender_id === this.user.sub, ' message-other ': item.sender_id === selectedFriend.auth0_id}">
+      <div v-for="(item, index) in received_messages.slice().reverse()" :key="index" :class="{ ' message-self ': item.senderId === this.user.sub, ' message-other ': item.senderId === selectedFriend.auth0Id}">
         {{ item.content }}
       </div>
     </div>
@@ -55,19 +55,19 @@ export default {
         // Add the sent message to the local list immediately
         const sentMsg = {
             content: this.send_message,
-            sender_id: this.user.sub,
-            recipientId: this.selectedFriend.auth0_id
+            senderId: this.user.sub,
+            recipientId: this.selectedFriend.auth0Id
         };
         this.received_messages.push(sentMsg);
 
         if (this.stompClient && this.stompClient.connected) {
             const msg = {
                 content: this.send_message,
-                sender_id: this.user.sub,
-                recipientId: this.selectedFriend.auth0_id
+                senderId: this.user.sub,
+                recipientId: this.selectedFriend.auth0Id
             };
             console.log(this.selectedFriend);
-            this.stompClient.send(`/app/hello/${this.selectedFriend.auth0_id}`, JSON.stringify(msg), {});
+            this.stompClient.send(`/app/hello/${this.selectedFriend.auth0Id}`, JSON.stringify(msg), {});
             this.send_message = "";
         }
     },
@@ -85,8 +85,8 @@ export default {
                     console.log(tick);
                     const receivedMsg = {
                         content: JSON.parse(tick.body).content,
-                        sender_id: JSON.parse(tick.body).sender_id,
-                        recipientId: JSON.parse(tick.body).recipientId
+                        senderId: JSON.parse(tick.body).senderId,
+                        receiverId: JSON.parse(tick.body).recipientId
                     };
                     // Update the local list with the server's response
                     this.received_messages.push(receivedMsg);
@@ -107,12 +107,16 @@ export default {
     tickleConnection() {
       this.connected ? this.disconnect() : this.connect();
     },
-    getChatMessages() {
-      axios.get("/api/chat", {
+    async getChatMessages() {
+      const token = await this.$auth0.getAccessTokenSilently();
+      await axios.get("/api/chat", {
         params: {
           senderId: this.user.sub,
-          receiverId: this.selectedFriend.auth0_id
-        }
+          receiverId: this.selectedFriend.auth0Id
+        },
+        headers: {
+           Authorization: `Bearer ${token}`,
+        },
       }).then(response => {
         this.received_messages = response.data;
       });

@@ -1,14 +1,15 @@
 <template>
-    <Guess />
+    <FriendList :friendRequestEnabled="false" :friendListHeaderText="'Invite a Friend'"/>
 </template>
 
 <script>
-import Guess from "@/components/Guess.vue";
+import FriendList from "@/components/FriendList.vue";
+
 
 export default {
     name: "Race",
     components: {
-        Guess,
+        FriendList,
     },
   }
 </script>

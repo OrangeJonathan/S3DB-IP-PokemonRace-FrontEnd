@@ -13,6 +13,7 @@ app.use(
     clientId: "Ro4SCGvNoy246c6hH9o1uoAXdtLvtzmj",
     authorizationParams: {
       redirect_uri: 'http://localhost:3000/callback',
+      audience: 'https://pokemon-racer.test.com',
     },
   })
 );
