@@ -1,12 +1,12 @@
 import axios from 'axios';
 
-class userRepository {
+class UserRepository {
     async SendUserToBackend(username, auth0_id, email, token) {
         try {
           const response = await axios.post('/api/users', {
               username: username,
               auth0Id: auth0_id,
-              email: email,
+              email: email, 
             }, {
             headers: {
               Authorization: `Bearer ${token}`,
@@ -25,4 +25,4 @@ class userRepository {
       }
 }
 
-export default userRepository;
+export default UserRepository;

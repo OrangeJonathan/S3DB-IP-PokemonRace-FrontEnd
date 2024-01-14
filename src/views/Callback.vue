@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="bg-black h-screen">
         finalizing authentication...
         <br />
         {{ user }}

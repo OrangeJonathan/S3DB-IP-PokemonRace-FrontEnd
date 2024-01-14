@@ -8,10 +8,9 @@ import Callback from '/src/views/Callback.vue';
 import PageNotFound from '/src/views/PageNotFound.vue'
 import { authGuard } from "@auth0/auth0-vue";
 
-
 const routes = [
     { path: '/', component: Home, name: 'home'},
-    { path: '/practice', component: Guess, name: 'practice'},
+    { path: '/practice', component: Guess, name: 'practice', beforeEnter: authGuard},
     { path: '/race', component: Race, name: 'race', beforeEnter: authGuard},
     { path: '/friends', component: Friends, name: 'friends', beforeEnter: authGuard},
     { path: '/profile', component: Profile, name: 'profile', beforeEnter: authGuard },

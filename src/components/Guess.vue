@@ -101,7 +101,7 @@ const pokemonRepo = new PokemonRepository();
         this.resetGuessedPokemon();
                
       },
-      async resetGuessedPokemon(){
+      async resetGuessedPokemon() {
         const token = await this.$auth0.getAccessTokenSilently();
         console.log(token);
         try {

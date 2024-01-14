@@ -6,7 +6,7 @@
       </router-link>
     </li>
     <li class="nav-li">
-      <router-link class="nav-link" :class="$route.name == 'practice'? 'active':''" aria-current="page" :to="{ name: 'practice'}">
+      <router-link class="nav-link" v-if="isAuthenticated" :class="$route.name == 'practice'? 'active':''" aria-current="page" :to="{ name: 'practice'}">
         Practice
       </router-link>
     </li>
@@ -69,5 +69,5 @@ export default {
 </script>
 
 <style>
-  @import '/src/assets/navbar.css';
+@import '/src/assets/navbar.css';
 </style>

@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 class PokemonRepository {
    async fetchPokemon(generation, token) {
     try {

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-class friendRepository {
+class FriendRepository {
     async fetchAcceptedFriends(token, auth0Id) {
         try {
             const response = await axios.get('/api/friends', {
@@ -115,4 +115,4 @@ class friendRepository {
     }
 }
 
-export default friendRepository;
+export default FriendRepository;
