@@ -7,10 +7,8 @@
 
 <script>
 import HelloWorld from "@/components/HelloWorld.vue";
-import NavBar from "@/components/NavBar.vue";
 import LandingPage from "@/components/LandingPage.vue";
 import LandingLoggedIn from "@/components/LandingLoggedIn.vue";
-import Footer from "@/components/Footer.vue";
 import authService from '@/service/authService.js';
 
 export default {
@@ -18,9 +16,7 @@ export default {
   components: {
     HelloWorld,
     LandingPage,
-    NavBar,
     LandingLoggedIn,
-    Footer,
   },
   setup()
   {
