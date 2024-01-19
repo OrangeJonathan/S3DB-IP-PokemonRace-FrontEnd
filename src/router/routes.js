@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import Home from '/src/views/Home.vue';
 import RaceInvite from '/src/views/RaceInvite.vue';
-import Race from '/src/views/race.vue'
+import Race from '/src/views/Race.vue'
 import Guess from '/src/views/Practice.vue';
 import Friends from '/src/views/Friends.vue';
 import Profile from '/src/views/Profile.vue';
