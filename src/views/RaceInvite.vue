@@ -22,7 +22,7 @@
 
 <script>
 import FriendList from "@/components/FriendList.vue";
-import Modal from "@/components/modal/Modal.vue";
+import Modal from "@/components/modal/modal.vue";
 import GenerationSelector from '@/components/GenerationSelector.vue';
 import TimeSelector from '@/components/TimeSelector.vue';
 import RaceInvitation from '@/components/RaceInvitation.vue';
