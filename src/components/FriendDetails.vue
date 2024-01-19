@@ -26,6 +26,7 @@ export default {
             const auth0Id = this.user.sub;
 
             await friendRepo.removeFriend(token, auth0Id, this.selectedFriend)
+            location.reload();
         },
     },
 }

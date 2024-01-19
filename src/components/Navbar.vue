@@ -11,7 +11,7 @@
       </router-link>
     </li>
     <li class="nav-li" v-if="isAuthenticated">
-      <router-link class="nav-link" :class="$route.name == 'race'? 'active':''" aria-current="page" :to="{ name: 'race'}">
+      <router-link class="nav-link" :class="$route.name == 'raceinvite'? 'active':''" aria-current="page" :to="{ name: 'raceinvite'}">
         Race
       </router-link>
     </li>

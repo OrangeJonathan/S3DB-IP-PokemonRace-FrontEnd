@@ -9,6 +9,7 @@ export default {
   props: {
     timerActive: {
       type: Boolean,
+      default: false,
       required: true,
     },
     startTime: {
@@ -51,7 +52,7 @@ export default {
     },
     startTimer() {
       clearInterval(this.timer); // Clear any existing timer
-
+      console.log('Timer started');
       this.timeLeft = this.startTime; // Reset the time
       this.timer = setInterval(() => {
         if (this.timeLeft > 0) {

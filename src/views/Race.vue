@@ -1,15 +1,15 @@
 <template>
-    <FriendList :friendRequestEnabled="false" :friendListHeaderText="'Invite a Friend'"/>
+    <Racing />
 </template>
 
 <script>
-import FriendList from "@/components/FriendList.vue";
-
+import Racing from '@/components/Racing.vue';
 
 export default {
-    name: "Race",
     components: {
-        FriendList,
-    },
-  }
+        Racing
+    }
+}
+
+
 </script>
