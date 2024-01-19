@@ -60,7 +60,7 @@ export default {
         };
         this.received_messages.push(sentMsg);
 
-        if (this.stompClient && this.stompClient.connected) {
+        if (this.stompClient?.connected) {
             const msg = {
                 content: this.send_message,
                 senderId: this.user.sub,

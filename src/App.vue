@@ -1,7 +1,7 @@
 <template>
-  <Navbar/>
+  <Navbar v-if="!['home'].includes($route.name)" />
   <router-view class=""/>
-  <Footer/>
+  <Footer v-if="!['home'].includes($route.name)" />
 </template>
 
 

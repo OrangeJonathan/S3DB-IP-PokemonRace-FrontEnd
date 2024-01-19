@@ -21,8 +21,7 @@
                 @click="openDetails(friend)" 
                 class="px-4 py-2 rounded-full shadow-md hover:shadow-lg" 
                 :class="{ 'bg-gradient-to-r from-blue-200 to-blue-400': friend !== selectedUser, 'bg-gradient-to-r from-green-500 to-green-300': friend === selectedUser }">
-                    <span v-if="friendListHeaderText=='Friend List'"> Select </span>
-                    <span v-if="friendListHeaderText=='Invite a Friend'"> Invite </span>
+                    <span> Select </span>
                 </button>
             </li>
         </ul>
@@ -64,7 +63,7 @@ export default {
 
             await friendRepo.fetchAcceptedFriends(token, auth0Id)
             this.friends = friendRepo.friends;
-
+            console.log(this.friends);
         },
         async fetchPendingFriends() {
             const token = await this.$auth0.getAccessTokenSilently();
@@ -90,8 +89,10 @@ export default {
             await friendRepo.acceptFriendRequest(token, auth0Id, friend);
             this.fetchAcceptedFriends();
             this.fetchPendingFriends();
-
-        }
+        },
+        resetSelectedUser() {
+            this.selectedUser = null;
+        },
     },
 };
 </script>

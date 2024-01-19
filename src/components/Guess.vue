@@ -4,7 +4,7 @@
       <img class="center" :src="pokemonArt" alt="Pokémon">
     </div>
     <p class="flex">
-      <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 center border border-gray-400 rounded shadow" :disabled="btnIsDisabled" @click="startTimer">Start</button>
+      <button class="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 center border border-gray-400 rounded shadow" :disabled="btnIsDisabled" @click="startTimer" v-show="startVisible">Start</button>
     </p>
     <br>
     <input ref="pokemonInput" class="center" :disabled="inputIsDisabled" type="text" v-model="chosenPokemon" @input="checkIfCorrect">
@@ -27,6 +27,10 @@ const pokemonRepo = new PokemonRepository();
       generation: {
         type: Number,
         required: true,
+      },
+      startVisible: {
+        type: Boolean,
+        default: true,
       },
     },
     data() {
@@ -80,6 +84,7 @@ const pokemonRepo = new PokemonRepository();
             this.chosenPokemon = '';
             this.fetchPokemon(this.generation);
             this.score++;
+            console.log(this.score);
             this.$emit('score', this.score);
         } 
             })
@@ -101,7 +106,7 @@ const pokemonRepo = new PokemonRepository();
         this.resetGuessedPokemon();
                
       },
-      async resetGuessedPokemon(){
+      async resetGuessedPokemon() {
         const token = await this.$auth0.getAccessTokenSilently();
         console.log(token);
         try {

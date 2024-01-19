@@ -25,9 +25,8 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
 Cypress.Commands.add("login", (email, password) => {
-    cy.session([email, password], () => {
         cy.visit("http://localhost:3000");
-        cy.get("button").contains("Login / Sign Up").click();
+        cy.get("button").contains("Log In to Play").click();
 
         cy.origin(
             "https://pokemonracer.eu.auth0.com/",
@@ -40,5 +39,4 @@ Cypress.Commands.add("login", (email, password) => {
         );
 
         cy.get("button").should("contain", "Logout");
-    });
 });
